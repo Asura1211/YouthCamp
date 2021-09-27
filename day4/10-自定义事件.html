@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 260px;
+            height: 260px;
+            background: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box"></div>
+    <script>
+        function enablelongTap(ele) {
+            let event = new CustomEvent("长按");
+            let timer = 0;
+            ele.addEventListener("mousedown", () => {
+                clearTimeout(timer)
+                timer = setTimeout(() => {
+                    // 触发 event事件
+                    ele.dispatchEvent(event);
+                }, 500)
+                let move = () => {
+                    clearTimeout(timer)
+                }
+                let end = () => {
+                    clearTimeout(timer)
+                    document.removeEventListener("mousemove", move);
+                    document.removeEventListener("mouseup", end);
+                }
+                document.addEventListener("mousemove", move);
+                document.addEventListener("mouseup", end);
+            })
+        }
+
+        {
+            let box = document.querySelector(".box");
+            enablelongTap(box)
+            box.addEventListener("长按", () => {
+                console.log("这是一个长按事件");
+            })
+        }
+    </script>
+</body>
+
+</html>
