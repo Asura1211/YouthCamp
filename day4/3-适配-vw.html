@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script>
+        (function () {
+            var metaEl = document.createElement('meta');
+            var scale = devicePixelRatio;
+            metaEl.setAttribute('name', 'viewport');
+            metaEl.setAttribute('content', 'initial-scale=' + (1 / scale) + ',maximum-scale= ' + (1 / scale) +
+                'minimum-scale=' + (1 / scale) + ', user-scalable=no');
+            document.documentElement.firstElementChild.appendChild(metaEl);
+        })();
+    </script>
+
+    <title>Document</title>
+    <!-- 100 vw = 1 屏幕 -->
+    <style>
+        .box {
+            display: flex;
+        }
+
+        .box div {
+            width: 40vw;
+            height: 24vw;
+            background-color: red;
+            margin: 0 2vw;
+            font-size: 5vw;
+        }
+
+        nav {
+            display: flex;
+        }
+
+        nav a {
+            margin: 0 4px;
+            font-size: 3.2vw;
+            text-decoration: none;
+        }
+
+        @media all and (max-width:640px) {
+            nav a {
+                color: green;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="">1</div>
+        <div class="">2</div>
+    </div>
+    <nav>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+        <a href="">文字-1</a>
+    </nav>
+</body>
+
+</html>

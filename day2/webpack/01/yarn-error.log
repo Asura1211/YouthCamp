@@ -1,0 +1,36 @@
+Arguments: 
+  D:\node.exe C:\Users\青山\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js init -
+
+PATH: 
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;D:\MATLAB\runtime\win64;D:\MATLAB\bin;D:\MATLAB\polyspace\bin;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;D:\Latex\texlive\2019\bin\win32;C:\Windows\System32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;D:\bin;D:\Git\cmd;C:\Program Files\Java\jdk1.8.0_241\bin;C:\MySQL5.5\bin;C:\Program Files\MySQL\MySQL Server 8.0\bin;D:\;D:\Cloud Foundry;C:\Users\青山\AppData\Local\Programs\Python\Launcher\;C:\Users\青山\AppData\Local\Programs\Python\Python38\Scripts\;C:\Users\青山\AppData\Local\Programs\Python\Python38\;D:\python-3.7.0\Scripts\;D:\python-3.7.0\;C:\Users\青山\AppData\Local\Programs\Python\Python36\Scripts\;C:\Users\青山\AppData\Local\Programs\Python\Python36\;C:\Users\青山\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Bandizip\;D:\Microsoft VS Code\bin;D:\texstudio\texlive\2019\bin\win32;C:\Users\青山\.dotnet\tools;C:\Users\青山\AppData\Roaming\npm
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  14.17.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (C:\Users\青山\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:136216:13)
+      at Interface.emit (events.js:376:20)
+      at Interface._ttyWrite (readline.js:880:16)
+      at ReadStream.onkeypress (readline.js:213:10)
+      at ReadStream.emit (events.js:376:20)
+      at emitKeys (internal/readline/utils.js:345:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1149:36)
+      at ReadStream.emit (events.js:376:20)
+      at addChunk (internal/streams/readable.js:309:12)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- viewport 移动端特有设置，解决移动端屏幕过小的问题 -->
+    <!-- 当不设置 viewport 时，视口大小默认为980 -->
+    <title>Document</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+    </style>
+    <script>
+        (function () {
+            var metaEl = document.createElement('meta');
+            var scale = devicePixelRatio;
+            metaEl.setAttribute('name', 'viewport');
+            metaEl.setAttribute('content', 'initial-scale=' + (1 / scale) + ',maximum-scale= ' + (1 / scale) +
+                'minimum-scale=' + (1 / scale) + ', user-scalable=no');
+            document.documentElement.firstElementChild.appendChild(metaEl);
+        })();
+    </script>
+</head>
+
+<body>
+    <div class="box"></div>
+</body>
+
+</html>
