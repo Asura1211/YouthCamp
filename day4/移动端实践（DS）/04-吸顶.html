@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+        }
+
+        .nav {
+            width: 100vw;
+            height: 50px;
+            font-size: 5vw;
+            line-height: 10vw;
+            color: white;
+            text-align: center;
+        }
+
+        .blue {
+            background-color: blue;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .yellow {
+            background-color: yellow;
+        }
+
+        .green {
+            background-color: green;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="nav blue ">11</div>
+    <div class="nav red">22</div>
+    <div class="nav yellow">33</div>
+    <div class="nav green">44</div>
+    <div class="" style="height: 2000px;"></div>
+</body>
+<script>
+    let targetNav, offsetTop;
+
+    window.onload = function () {
+        targetNav = document.querySelector('.yellow');
+        offsetTop = targetNav.offsetTop
+    }
+
+    window.onscroll = function () {
+        // 当前滚轮高度
+        let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+        // 当前可视区域的高度
+        let viewHeight = document.documentElement.clientHeight;
+        // 页面总高度
+        let scrollHeight = document.body.scrollHeight
+
+
+        if (scrollTop > offsetTop) {
+            targetNav.style.position = "fixed";
+            targetNav.style.top = "0";
+            targetNav.nextElementSibling.style.marginTop = targetNav.offsetHeight + 'px'
+        } else {
+            targetNav.style.position = "relative";
+            targetNav.nextElementSibling.style.marginTop = '0px'
+        }
+    }
+</script>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .blue {
+            height: 5000px;
+            width: 100%;
+            background-color: blue;
+        }
+    </style>
+    <script>
+        window.onscroll = function () {
+            // 当前滚轮高度
+            let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+            // 当前可视区域的高度
+            let viewHeight = document.documentElement.clientHeight;
+            // 页面总高度
+            let scrollHeight = document.body.scrollHeight
+            console.log(scrollTop, viewHeight, scrollHeight);
+            if(scrollHeight-scrollTop<=viewHeight){
+                console.log(1);
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div style="height: 2000px;
+    width: 100%;
+    background-color: blue;">
+
+    </div>
+</body>
+
+
+</html>
