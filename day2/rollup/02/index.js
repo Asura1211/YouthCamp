@@ -1,6 +1,8 @@
-// esm
-import { foo } from "./foo";
-import { bar } from "./bar";
-
 // tree-shaking
-foo();
+import { age } from './data.json'
+
+console.log(age);
+
+export function main() {
+    console.log("main")
+}

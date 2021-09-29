@@ -1,7 +1,4 @@
-function foo() {
-    console.log("foo");
-}
+var age = 18;
 
-// esm
-
-foo();
+// tree-shaking
+console.log(age);
