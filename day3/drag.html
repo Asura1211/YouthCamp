@@ -1,0 +1,25 @@
+<div id="dragable" style="width: 100px;height: 100px; border:solid 1px green"></div>
+<script>
+    function enableDrag(element) {
+        let x0, y0;
+        let ex = 0,
+            ey = 0;
+        let move = e => {
+            let [dx, dy] = [e.clientX - x0, e.clientY - y0];
+            console.log(dx, dy);
+            element.style.transform = `translate(${ex + dx}px, ${ey + dy}px) `;
+        }
+        let up = e => {
+            document.removeEventListener("mousemove", move);
+            document.removeEventListener("mouseup", up);
+            let [dx, dy] = [e.clientX - x0, e.clientY - y0];
+            ex += dx, ey += dy;
+        }
+        element.addEventListener("mousedown", e => {
+            [x0, y0] = [e.clientX, e.clientY];
+            document.addEventListener("mousemove", move);
+            document.addEventListener("mouseup", up);
+        });
+    }
+    enableDrag(document.getElementById("dragable"));
+</script>
