@@ -1,0 +1,115 @@
+<div id="app">
+    {{title}}
+</div>
+
+<script>
+    // 1.基本结构
+    const Vue = {
+        // 扩展性：web平台、xxx平台都可以用（通过平台各自特有的选项）
+        createRenderer({
+            querySelector,
+            insert
+        }) {
+            // 返回渲染器
+            return {
+                createApp(options) {
+                    return {
+                        mount(selector) {
+                            // console.log("mount");
+                            // vue 的 mount 都做了什么事？
+                            // 1.找到宿主元素
+                            const parent = querySelector(selector)
+                            // 2.渲染页面
+                            if (!options.render) {
+                                //   2.1处理template：编译(需自己在mount下面写compile)
+                                options.render = this.compile(parent.innerHTML)
+                            }
+
+                            // setup和其他选项的兼容
+                            if (options.setup) {
+                                this.setupState = options.setup()
+                            }
+                            if (options.data) {
+                                this.data = options.data()
+                            }
+
+                            // proxy代理
+                            const proxy = new Proxy(this, {
+                                get(target, key) {
+                                    //先从setup中取，再从data
+                                    if (target.setupState && key in target.setupState) {
+                                        return target.setupState[key]
+                                    } else {
+                                        return target.data[key]
+                                    }
+                                },
+                                set(target, key, val) {
+                                    if (target.setupState && key in target.setupState) {
+                                        target.setupState[key] = val
+                                    } else {
+                                        target.data[key] = val
+                                    }
+                                }
+                            })
+
+                            //   2.2用户直接编写render
+                            // compile中用到this，所以用call绑定上下文 options.data 后来改为proxy
+                            const el = options.render.call(proxy)
+                            // 3.追加到宿主
+                            parent.innerHTML = ''
+                            insert(el, parent)
+                            // parent.appendChild(el)
+                        },
+                        compile(template) {
+                            // 返回一个render函数
+                            // parse -> ast 
+                            // generate -> ast => render
+                            return function render() {
+                                const h3 = document.createElement('h3')
+                                h3.textContent = this.title
+                                return h3
+                            }
+                        }
+                    }
+                }
+            }
+        },
+       
+        createApp(options) {
+            // 创建一个 web 平台特有渲染器
+            const renderer = Vue.createRenderer({
+                querySelector(sel) {
+                    return document.querySelector(sel)
+                },
+                insert(el, parent) {
+                    parent.appendChild(el)
+                }
+            })
+            return renderer.createApp(options)
+
+        }
+
+
+    }
+</script>
+
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                title: 'hello vue3!'
+            }
+        },
+        setup() {
+            // created
+            return {
+                title: 'vue3 hello!'
+            }
+        }
+        // render(){
+
+        // }
+
+    })
+    app.mount('#app')
+</script>

@@ -1,0 +1,59 @@
+<div id="app">
+    {{title}}
+    <comp></comp>
+</div>
+
+
+
+<script src="http://unpkg.com/vue@next"></script>
+
+<script>
+    // 扩展性：自定义渲染器
+    // const renderer = Vue.createRenderer({})
+
+
+    function useTitle() {
+        const state = Vue.reactive({
+            title: 'vue3,hello!'
+        })
+        setTimeout(() => {
+            state.title = 'new title'
+        }, 1000)
+        return state
+    }
+    // app 实例创建
+    // new Vue
+    const app = Vue.createApp({
+        data() {
+            return {
+                title: 'hello vue3!'
+            }
+        },
+        setup() {
+            // 复用性、可读性、可维护性
+            const state = useTitle()
+
+            return state
+        },
+        render() {
+            // vue2 绑定title
+            // return h('div', {
+            //     attrs: {
+            //         title: this.title
+            //     },
+            //     event:{
+
+            //     }
+            // }, 'xxx')
+            // vue3
+            // return Vue.h('div', {
+            //     title: this.title,
+            //     foo: this.title
+            // }, 'xxx')
+        }
+    })
+    // app.component('comp', {
+    //     template: '<h1> hello </h1>'
+    // })
+    app.mount('#app')
+</script>
