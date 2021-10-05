@@ -3,11 +3,20 @@
 </div>
 
 <script>
-    // 1.基本结构
+    // 传入信息，返回vnode，描述视图
+    function h(tag, props, children) {
+        return {
+            tag,
+            props,
+            children
+        }
+    }
+
     const Vue = {
         createRenderer({
             querySelector,
-            insert
+            insert,
+            createElement
         }) {
             return {
                 createApp(options) {
@@ -43,19 +52,60 @@
                             })
                             // 给 app 加更新机制！！！，做的就是初始化的三步。为了支持setTimeout变化，用effect给function包装一下
                             this.update = effect(() => {
-                                const el = options.render.call(proxy)
-                                parent.innerHTML = ''
-                                insert(el, parent)
+                                // const el = options.render.call(proxy)
+                                // parent.innerHTML = ''
+                                // insert(el, parent)
+
+                                const vnode = options.render.call(proxy)
+                                // 转换vnode为dom：先初始化创建整棵树
+                                if (!this.isMounted) {
+                                    // 实现createElm, 整体创建
+                                    const el = this.createElm(vnode)
+                                    parent.innerHTML = ''
+                                    insert(el, parent)
+
+                                    //init
+                                    this.isMounted = true
+                                } else {
+                                    //todo: update
+                                }
                             })
 
                             // // 初始化
                             // this.update()
                         },
+
+                        createElm({
+                            tag,
+                            props,
+                            children
+                        }) {
+                            // 遍历vnode，创建整棵树
+                            const el = createElement(tag)
+                            // 如果存在属性，就设置他们
+                            // el.setAttribute(key,val)
+                            // 如果存在children，向下递归：判断若为字符串
+                            if (typeof children === 'string') {
+                                el.textContent = children
+                            } else {
+                                children.forEach(child => insert(this.createElm(child), el))
+                            }
+                            return el
+                        },
+
                         compile(template) {
                             return function render() {
-                                const h3 = document.createElement('h3')
-                                h3.textContent = this.title
-                                return h3
+                                // const h3 = document.createElement('h3')
+                                // h3.textContent = this.title
+                                // return h3
+
+                                // 虚拟dom
+                                // return h('h3', null, this.title)
+                                return h('h3', null, [
+                                    h('p', null, this.title),
+                                    h('p', null, this.title),
+                                    h('p', null, this.title),
+                                ])
                             }
                         }
                     }
@@ -70,6 +120,9 @@
                 },
                 insert(el, parent) {
                     parent.appendChild(el)
+                },
+                createElement(tag) {
+                    return document.createElement(tag)
                 }
             })
             return renderer.createApp(options)

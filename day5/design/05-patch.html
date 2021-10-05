@@ -3,11 +3,20 @@
 </div>
 
 <script>
-    // 1.基本结构
+    // 传入信息，返回vnode，描述视图
+    function h(tag, props, children) {
+        return {
+            tag,
+            props,
+            children
+        }
+    }
+
     const Vue = {
         createRenderer({
             querySelector,
-            insert
+            insert,
+            createElement
         }) {
             return {
                 createApp(options) {
@@ -43,19 +52,94 @@
                             })
                             // 给 app 加更新机制！！！，做的就是初始化的三步。为了支持setTimeout变化，用effect给function包装一下
                             this.update = effect(() => {
-                                const el = options.render.call(proxy)
-                                parent.innerHTML = ''
-                                insert(el, parent)
-                            })
+                                const vnode = options.render.call(proxy)
 
-                            // // 初始化
-                            // this.update()
+                                if (!this.isMounted) {
+                                    const el = this.createElm(vnode)
+                                    parent.innerHTML = ''
+                                    insert(el, parent)
+
+                                    this.isMounted = true
+                                } else {
+                                    //todo: update
+                                    this.patch(this._vnode, vnode)
+                                }
+                                // 保存这次的vnode，当作下次的oldnode
+                                this._vnode = vnode
+                            })
                         },
+
+                        patch(n1, n2) {
+                            const el = n2.el = n1.el
+                            // n1 old, n2 new
+                            // 1.更新：必须更新相同节点.何为相同节点？ tag、key  （sameVnode）
+                            if (n1.tag === n2.tag && n1.key === n2.key) {
+                                // update
+                                // props todo
+                                // children 
+                                const oldCh = n1.children
+                                const newCh = n2.children
+                                if (typeof oldCh === 'string') {
+                                    if (typeof newCh === 'string') {
+                                        // text update
+                                        if (oldCh !== newCh) {
+                                            el.textContent = newCh
+                                        }
+                                    } else {
+                                        // 替换文本为一组子元素
+                                        // 清空再创建并追加
+                                        el.textContent = ''
+                                        newCh.forEach(child => insert(this.createElm(child), el))
+                                    }
+                                } else {
+                                    if (typeof newCh === 'string') {
+                                        // 替换一组子元素为文本
+                                        el.textContent = newCh
+                                    } else {
+                                        
+                                    }
+                                }
+                            } else {
+                                // replace
+                            }
+                        },
+
+                        createElm(vnode) {
+                            const {
+                                tag,
+                                props,
+                                children
+                            } = vnode
+
+                            const el = createElement(tag)
+
+                            if (typeof children === 'string') {
+                                el.textContent = children
+                            } else {
+                                children.forEach(child => insert(this.createElm(child), el))
+                            }
+                            // vnode中要保存真实dom，已备未来更新使用
+                            vnode.el = el
+                            return el
+                        },
+
                         compile(template) {
                             return function render() {
-                                const h3 = document.createElement('h3')
-                                h3.textContent = this.title
-                                return h3
+                                // const h3 = document.createElement('h3')
+                                // h3.textContent = this.title
+                                // return h3
+
+                                // 虚拟dom
+                                if (Array.isArray(this.title)) {
+                                    return h('h3', null, this.title.map(s => h('p', null, s)))
+                                } else {
+                                    return h('h3', null, this.title)
+                                }
+                                // return h('h3', null, [
+                                //     h('p', null, this.title),
+                                //     h('p', null, this.title),
+                                //     h('p', null, this.title),
+                                // ])
                             }
                         }
                     }
@@ -70,6 +154,9 @@
                 },
                 insert(el, parent) {
                     parent.appendChild(el)
+                },
+                createElement(tag) {
+                    return document.createElement(tag)
                 }
             })
             return renderer.createApp(options)
@@ -187,7 +274,7 @@
             })
             // 需要给update加上effect副作用函数
             setTimeout(() => {
-                state.title = 'hello vue3!'
+                state.title = 'hello vue3!'.split('')
             }, 2000)
             return state
         }
